@@ -20,6 +20,10 @@ class Board
     self.populate if should_pop
   end
 
+  def get_pieces
+    @grid.flatten.reject { |piece| piece.class == NullPiece }
+  end
+
   def move_piece!(start, end_pos)
     raise "There is no piece at this position" if start.nil? ##
     #raise "End position is not valid" ##
@@ -98,35 +102,38 @@ class Board
   end
 
   def dup
+
     my_pieces = get_pieces
     new_board = Board.new(false)
     my_pieces.each do |piece|
-    piece.class.new(new_board, piece.current_pos, piece.color)
-      # new_board.pieces.push(newp)
+      new_piece = piece.class.new(new_board, piece.current_pos, piece.color)
+      new_board.pieces.push(new_piece)
+      new_board[new_piece.current_pos] = new_piece
     end
     new_board
   end
 
 
   def in_check?(color)
+    
     king_pos = find_king(color).current_pos
-    @pieces.any? do |piece|
+    get_pieces.any? do |piece|
       piece.color != color && piece.moves.include?(king_pos)
     end
   end
 
   def find_king(color)
-    @pieces.find {|piece| piece.class == King && piece.color == color}
+    get_pieces.find {|piece| piece.class == King && piece.color == color}
   end
 
   def [](pos)
     x, y = pos
-    grid[x][y]
+    @grid[x][y]
   end
 
   def []=(pos, value)
     x, y = pos
-    grid[x][y] = value
+    @grid[x][y] = value
   end
 
 end

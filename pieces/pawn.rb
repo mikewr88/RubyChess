@@ -31,12 +31,13 @@ class Pawn < Piece
     possible_dirs = []
     x += dx
     y += dy
+    
     if (dx.abs == 1 && dy == 0) && regular_valid_move?(current_pos, [x, y])
       possible_dirs << [x, y]
     elsif dx.abs == 2 && dy == 0 && regular_valid_move?(current_pos, [x, y]) &&
       (current_pos[0] == 1 || current_pos[0] == 6)
       possible_dirs << [x, y]
-    elsif !@board[[x,y]].empty? && (@board[[x,y]].color != @board[current_pos].color)
+    elsif regular_valid_move?(current_pos, [x, y]) && !@board[[x,y]].empty? && (@board[[x,y]].color != @board[current_pos].color)
       possible_dirs << [x, y]
     else
       possible_dirs
