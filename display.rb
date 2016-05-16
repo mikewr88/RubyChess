@@ -36,7 +36,7 @@ class Display
 
   def render
     system ("clear")
-    puts "Welcome to Chess Biatches"
+    puts "Welcome to Chess"
     puts "It is #{@player.color}'s turn"
     puts "Arrow keys, WASD, or vim to move, space or enter to confirm."
     build_grid.each { |row| puts row.join }
