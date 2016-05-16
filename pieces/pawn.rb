@@ -1,10 +1,55 @@
 class Pawn < Piece
-  SYM = :P
-  attr_accessor :pos, :name, :color
-  def initialize
-    @pos = [[1,0], [1,1], [1,2], [1,3], [1,4], [1,5], [1,6],
-  [1,7], [6,0], [6,1], [6,2], [6,3], [6,4], [6,5], [6,6], [6,7]]
-    @name = "Pawn"
-    @color = nil
+
+  WHITE_PAWN_MOVES = [[1, 0],[2, 0],[1, -1],[1, 1]]
+  BLACK_PAWN_MOVES = [[-1,0],[-2, 0],[-1,-1],[-1,1]]
+
+  def regular_valid_move?(current_pos, new_pos)
+    if @board.in_bounds?(new_pos) &&
+      @board[new_pos].empty?
+      true
+    else
+      false
+    end
   end
+
+  def moves
+    moves = []
+    if self.color == :white
+      WHITE_PAWN_MOVES.each do |dx, dy|
+        moves.concat(build_moves(dx, dy))
+      end
+    else
+      BLACK_PAWN_MOVES.each do |dx, dy|
+        moves.concat(build_moves(dx, dy))
+      end
+    end
+    moves
+  end
+
+  def build_moves(dx, dy)
+    x,y = current_pos
+    possible_dirs = []
+    x += dx
+    y += dy
+    if (dx.abs == 1 && dy == 0) && regular_valid_move?(current_pos, [x, y])
+      possible_dirs << [x, y]
+    elsif dx.abs == 2 && dy == 0 && regular_valid_move?(current_pos, [x, y]) &&
+      (current_pos[0] == 1 || current_pos[0] == 6)
+      possible_dirs << [x, y]
+    elsif !@board[[x,y]].empty? && (@board[[x,y]].color != @board[current_pos].color)
+      possible_dirs << [x, y]
+    else
+      possible_dirs
+    end
+    possible_dirs
+  end
+
+  def to_s
+    if self.color == :white
+      " ♙ "
+    else
+      " ♟ "
+    end
+  end
+
 end

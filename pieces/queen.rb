@@ -1,12 +1,20 @@
+require_relative 'sliding'
+
 class Queen < Piece
-  SYM = :Q
-  attr_accessor :pos, :name, :color
-  def initialize
-    @pos = [[0,4],[7,4]]
-    @name = "Queen"
-    @color = nil
+  include Sliding
+  # def initialize(board, pos, color)
+  #   super
+  # end
+  #
+  def to_s
+    if self.color == :white
+      " ♕ "
+    else
+      " ♛ "
+    end
   end
 
   def move_dirs
+    Sliding::LINEAR_MOVES + Sliding::DIAGONAL_MOVES
   end
 end

@@ -1,9 +1,21 @@
+require_relative 'stepping'
+
 class King < Piece
-  SYM = :K
-  attr_accessor :pos, :name, :color
-  def initialize
-    @pos = [[0,3], [7,3]]
-    @name = "King"
-    @color = nil
+  include Stepping
+
+  # def initialize(board, pos, color)
+  #   super
+  # end
+
+  def to_s
+    if self.color == :white
+      " ♔ "
+    else
+      " ♚ "
+    end
+  end
+
+  def move_dirs
+    Stepping::KING_MOVES
   end
 end

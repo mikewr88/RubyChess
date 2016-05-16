@@ -1,12 +1,19 @@
-class Bishop < Piece
-  SYM = :B
-  attr_accessor :pos, :name, :color
-  def initialize
-    @pos = [[0,2], [0,5], [7,2], [7,5]]
-    @name = "Bishop"
-    @color = nil
-  end
+require_relative 'sliding'
 
+class Bishop < Piece
+  include Sliding
+  # def initialize(board, pos, color)
+  #   super
+  # end
+
+  def to_s
+    if self.color == :white
+      " ♗ "
+    else
+      " ♝ "
+    end
+  end
   def move_dirs
+    Sliding::DIAGONAL_MOVES
   end
 end

@@ -1,12 +1,23 @@
+require_relative 'sliding'
+require './piece'
+
 class Rook < Piece
-  SYM = :R
-  attr_accessor :pos, :name , :color
-  def initialize
-    @pos = [[0,0], [0,7], [7,0], [7,7]]
-    @name = "Rook"
-    @color = nil
+  include Sliding
+  # def initialize(board, pos, color)
+  #   super
+  # end
+
+  def to_s
+    if self.color == :white
+      " ♖ "
+    else
+      " ♜ "
+    end
   end
 
+
+
   def move_dirs
+    Sliding::LINEAR_MOVES
   end
 end
