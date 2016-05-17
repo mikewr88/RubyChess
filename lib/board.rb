@@ -113,9 +113,16 @@ class Board
     new_board
   end
 
+  def checkmate?(color)
+    return false unless in_check?(color)
+
+    get_pieces.select { |p| p.color == color }.all? do |piece|
+      piece.valid_moves.empty?
+    end
+  end
 
   def in_check?(color)
-    
+
     king_pos = find_king(color).current_pos
     get_pieces.any? do |piece|
       piece.color != color && piece.moves.include?(king_pos)

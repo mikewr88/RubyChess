@@ -8,6 +8,7 @@ class Display
     @board = board
     @cursor_pos = [0, 0]
     @player = player
+    @notifications = {}
   end
 
   def build_grid
@@ -34,12 +35,19 @@ class Display
     { background: bg, color: :white }
   end
 
+  def set_check!
+    @notifications[:check] = "Check!"
+  end
+
   def render
     system ("clear")
     puts "Welcome to Chess"
     puts "It is #{@player.color}'s turn"
     puts "Arrow keys, WASD, or vim to move, space or enter to confirm."
     build_grid.each { |row| puts row.join }
+    @notifications.each do |key, val|
+      puts "#{val}"
+    end
     nil
   end
 end

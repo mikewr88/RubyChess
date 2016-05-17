@@ -4,8 +4,7 @@ class Pawn < Piece
   BLACK_PAWN_MOVES = [[-1,0],[-2, 0],[-1,-1],[-1,1]]
 
   def regular_valid_move?(current_pos, new_pos)
-    if @board.in_bounds?(new_pos) &&
-      @board[new_pos].empty?
+    if @board.in_bounds?(new_pos) && @board[new_pos].empty?
       true
     else
       false
@@ -13,17 +12,17 @@ class Pawn < Piece
   end
 
   def moves
-    moves = []
+    pawn_moves = []
     if self.color == :white
       WHITE_PAWN_MOVES.each do |dx, dy|
-        moves.concat(build_moves(dx, dy))
+        pawn_moves.concat(build_moves(dx, dy))
       end
     else
       BLACK_PAWN_MOVES.each do |dx, dy|
-        moves.concat(build_moves(dx, dy))
+        pawn_moves.concat(build_moves(dx, dy))
       end
     end
-    moves
+    pawn_moves
   end
 
   def build_moves(dx, dy)
@@ -31,14 +30,15 @@ class Pawn < Piece
     possible_dirs = []
     x += dx
     y += dy
-    
+
     if (dx.abs == 1 && dy == 0) && regular_valid_move?(current_pos, [x, y])
       possible_dirs << [x, y]
     elsif dx.abs == 2 && dy == 0 && regular_valid_move?(current_pos, [x, y]) &&
       (current_pos[0] == 1 || current_pos[0] == 6)
       possible_dirs << [x, y]
-    elsif regular_valid_move?(current_pos, [x, y]) && !@board[[x,y]].empty? && (@board[[x,y]].color != @board[current_pos].color)
+    elsif dy.abs == 1 && valid_move?(current_pos, [x, y]) && !@board[[x,y]].empty? && (@board[[x,y]].color != @board[current_pos].color)
       possible_dirs << [x, y]
+
     else
       possible_dirs
     end
@@ -47,9 +47,9 @@ class Pawn < Piece
 
   def to_s
     if self.color == :white
-      " ♙ "
-    else
       " ♟ "
+    else
+      " ♙ "
     end
   end
 

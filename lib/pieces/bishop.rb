@@ -8,9 +8,9 @@ class Bishop < Piece
 
   def to_s
     if self.color == :white
-      " ♗ "
-    else
       " ♝ "
+    else
+      " ♗ "
     end
   end
   def move_dirs

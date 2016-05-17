@@ -3,6 +3,7 @@ require_relative "board"
 
 class Player
   attr_accessor :color
+  attr_reader :display
   def initialize(board)
     @display = Display.new(board, self)
     @color = :white
